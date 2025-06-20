@@ -2,23 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const coin = document.getElementById("coin");
   const button = document.getElementById("flipButton");
 
+  let totalRotation = 0;
+
   button.addEventListener("click", () => {
-    // Add spin class to trigger animation
-    coin.classList.add("spin");
+    const isHeads = Math.random() < 0.5;
 
-    // Wait for spin to finish
-    setTimeout(() => {
-      // Randomly decide heads or tails
-      const isHeads = Math.random() < 0.5;
-      const imgSrc = isHeads
-        ? "./assets/pics/heads.png" // Path to heads image
-        : "./assets/pics/tails.png"; // Path to tails image
+    // Each flip spins 3 full turns + optional 180 for tails
+    totalRotation += 1080; // 3 full spins
 
-      // Update coin image
-      coin.src = imgSrc;
+    if (!isHeads) {
+      totalRotation += 180; // extra half turn to land on tails
+    }
 
-      // Remove spin class for next flip
-      coin.classList.remove("spin");
-    }, 1000); // matches CSS animation time
+    coin.style.transform = `rotateY(${totalRotation}deg)`;
   });
 });
